@@ -1,0 +1,33 @@
+Notes:
+1. created ./cucumber.js file to remove reporting suggestion box.
+
+2. features files should be in features folder
+
+3. step definition folder should be in features folder
+
+4. step_definations.js or any of snippets definitions files should be placed either under step_definitions folder or in
+features folder, if user store them anywhere other than specified locations manually user need to specify the location.
+
+5. using formatters
+   ./node_modules/.bin/cucumber-js --format usage // it will print the steps in a table
+
+6. using parameter or setup to generate reports
+./node_modules/.bin/cucumber-js --format json:./reports/cucumber-json-report.json
+
+7. sending parameters from cmd
+./node_modules/.bin/cucumber-js --world-parameters '{"a":1,"b":2}'
+
+8. executing features files or scenario by name or regex
+./node_modules/.bin/cucumber-js features/**/*.feature
+./node_modules/.bin/cucumber-js --name "easy math"
+./node_modules/.bin/cucumber-js --name "^starting text.+ending text$"
+
+
+========================================================================================================================
+    TestStepResultStatus.UNKNOWN,
+    TestStepResultStatus.PASSED,
+    TestStepResultStatus.SKIPPED,
+    TestStepResultStatus.PENDING,
+    TestStepResultStatus.UNDEFINED,
+    TestStepResultStatus.AMBIGUOUS,
+    TestStepResultStatus.FAILED

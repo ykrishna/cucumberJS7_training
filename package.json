@@ -1,0 +1,17 @@
+{
+  "name": "package",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "cucumber-js"
+  },
+  "author": "krishna",
+  "license": "ISC",
+  "dependencies": {
+    "@cucumber/cucumber": "^7.3.0"
+  },
+  "devDependencies": {
+    "chai": "^4.3.4"
+  }
+}
