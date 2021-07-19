@@ -5,29 +5,111 @@ Notes:
 
 3. step definition folder should be in features folder
 
-4. step_definations.js or any of snippets definitions files should be placed either under step_definitions folder or in
+4. step_definitions.js or any of snippets definitions files should be placed either under step_definitions folder or in
 features folder, if user store them anywhere other than specified locations manually user need to specify the location.
 
 5. using formatters
-   ./node_modules/.bin/cucumber-js --format usage // it will print the steps in a table
+   ./node_modules/.bin/cucumber-js --format usage
+   it will print the following table
+   ┌───────────────────────────────────┬──────────┬──────────────────────────────────────────────────┐
+   │ Pattern / Text                    │ Duration │ Location                                         │
+   ├───────────────────────────────────┼──────────┼──────────────────────────────────────────────────┤
+   │ a variable set to {int}           │ 1.00ms   │ features/step_definitions/step_definitions.js:49 │
+   │   a variable set to 1             │ 1ms      │ features/simpleMath.feature:7                    │
+   ├───────────────────────────────────┼──────────┼──────────────────────────────────────────────────┤
+   │ the variable should contain {int} │ 1.00ms   │ features/step_definitions/step_definitions.js:57 │
+   │   the variable should contain 2   │ 1ms      │ features/simpleMath.feature:9                    │
+   ├───────────────────────────────────┼──────────┼──────────────────────────────────────────────────┤
+   │ I increment the variable by {int} │ 0.00ms   │ features/step_definitions/step_definitions.js:53 │
+   │   I increment the variable by 1   │ 0ms      │ features/simpleMath.feature:8                    │
+   └───────────────────────────────────┴──────────┴──────────────────────────────────────────────────┘
 
 6. using parameter or setup to generate reports
 ./node_modules/.bin/cucumber-js --format json:./reports/cucumber-json-report.json
 
 7. sending parameters from cmd
 ./node_modules/.bin/cucumber-js --world-parameters '{"a":1,"b":2}'
+then change following code
+let CustomWorld = function(options) {
+    for(let key in options.parameters) {
+        this[key] = options.parameters[key]
+    }
+};
 
 8. executing features files or scenario by name or regex
 ./node_modules/.bin/cucumber-js features/**/*.feature
 ./node_modules/.bin/cucumber-js --name "easy math"
 ./node_modules/.bin/cucumber-js --name "^starting text.+ending text$"
 
+9. when you execute "cucumber-js --i18n-keywords te", it will display following code
+                    ENGLISH KEYWORD  | NATIVE KEYWORDS
+                    Feature          | "గుణము"
+                    Background       | "నేపథ్యం"
+                    Scenario         | "ఉదాహరణ", "సన్నివేశం"
+                    Scenario Outline | "కథనం"
+                    Examples         | "ఉదాహరణలు"
+                    Given            | "* ", "చెప్పబడినది "
+                    When             | "* ", "ఈ పరిస్థితిలో "
+                    Then             | "* ", "అప్పుడు "
+                    And              | "* ", "మరియు "
+                    But              | "* ", "కాని "
+10. when you execute "cucumber-js --i18n-languages", it will display following code
+ISO 639-1 | ENGLISH NAME        | NATIVE NAME
+ar        | Arabic              | العربية
+fa        | Persian             | فارسی
+gj        | Gujarati            | ગુજરાતી
+he        | Hebrew              | עברית
+hi        | Hindi               | हिंदी
+kn        | Kannada             | ಕನ್ನಡ
+ko        | Korean              | 한국어
+ne        | Nepali              | नेपाली
+pa        | Panjabi             | ਪੰਜਾਬੀ
+ta        | Tamil               | தமிழ்
+te        | Telugu              | తెలుగు
+ur        | Urdu                | اردو
+uz        | Uzbek               | Узбекча
+mr        | Marathi             | मराठी
+11. execute a feature written in a native language using --language ISO 639-1
+    example: cucumber-js --language te
+    here "te" is telugu
+12. Cucumber HTML Formatter
+formatter that produces a HTML report for Cucumber runs
+npm install -g cucumber-html-formatter
+cat cucumber-messages.ndjson | cucumber-html-formatter --format ndjson > index.html
+Cucumber needs to produce results in a machine-readable format so that other tools can generate reports.
++----------+    messages     +-----------+
+| Cucumber |---m-m-m-m-m-m-->| Formatter |
++----------+                 +-----------+
+13.Cucumber pretty formatter
+Cucumber.js pretty formatter implementing event protocol.
+npm install --save-dev @cucumber/pretty-formatter
+--format-options '{
+"theme":{
+"datatable border":["green"],
+"datatable content":["green","italic"],
+"docstring content":["green","italic"],
+"docstring delimiter":["green"],
+"feature description":["green"],
+"feature keyword":["bold","green"],
+"rule keyword":["yellow"],
+"scenario keyword":["greenBright"],
+"scenario name":["green","underline"],
+"step keyword":["bgGreen","black","italic"],
+"step text":["greenBright","italic"],
+"tag":["green"]
+         }
+                   }'
+cucumber-js features/i18n.feature -f @cucumber/pretty-formatter  --language te --format-options '{"theme":{"datatable
+border":["green"],"datatable content":["green","italic"],"docstring content":["green","italic"],"docstring delimiter":
+["green"],"feature description":["green"],"feature keyword":["bold","green"],"rule keyword":["yellow"],"scenario
+keyword":["greenBright"],"scenario name":["green","underline"],"step keyword":["bgGreen","black","italic"],"step
+text":["greenBright","italic"],"tag":["green"]}}'
 
 ========================================================================================================================
-    TestStepResultStatus.UNKNOWN,
-    TestStepResultStatus.PASSED,
-    TestStepResultStatus.SKIPPED,
-    TestStepResultStatus.PENDING,
-    TestStepResultStatus.UNDEFINED,
-    TestStepResultStatus.AMBIGUOUS,
-    TestStepResultStatus.FAILED
+TestStepResultStatus.UNKNOWN,
+TestStepResultStatus.PASSED,
+TestStepResultStatus.SKIPPED,
+TestStepResultStatus.PENDING,
+TestStepResultStatus.UNDEFINED,
+TestStepResultStatus.AMBIGUOUS,
+TestStepResultStatus.FAILED
