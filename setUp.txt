@@ -30,9 +30,30 @@ export PROMPT='%F{grey}%n%f %F{cyan}%~%f %F{green}$(parse_git_branch)%f %F{norma
  fix it by
  git pull --rebase origin main
  git push origin main
+ git config pull.rebase true
+ git config --global rebase.autoStash true
+ git pull
 
  Step 3 - Point HEAD to ‘main’ branch
-
+ git branch --set-upstream-to=origin/main main
+ git symbolic-ref refs/remotes/origin/HEAD refs/remotes/origin/main
+ 
  Step 4 - Change default branch to ‘main’ on GitHub site
 
  Step 5 - Delete ‘master’ branch on the remote repo
+
+ How to delete remote branches in Git
+
+ local
+ git branch -a
+ # *master
+ #  test
+ #  remote/origin/master
+ #  remote/origin/test
+
+ git branch -d test
+
+ remote
+ git push origin --delete master
+ for local tracking branch after deleted branch in github
+ git branch -d -r origin/master
