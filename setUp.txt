@@ -18,3 +18,21 @@ function parse_git_branch() {
 
 setopt PROMPT_SUBST
 export PROMPT='%F{grey}%n%f %F{cyan}%~%f %F{green}$(parse_git_branch)%f %F{normal}$%f '
+
+ steps to change GitHub default branch from master to main
+ Step 1 - Move the master branch to ‘main’
+ git branch -m master main
+
+ Step 2 - Push ‘main’ to remote repo
+ git push -u origin main
+ got follow error
+ error: failed to push some refs to 'https://github.com/ykrishna/cucumberJS7_training.git'
+ fix it by
+ git pull --rebase origin main
+ git push origin main
+
+ Step 3 - Point HEAD to ‘main’ branch
+
+ Step 4 - Change default branch to ‘main’ on GitHub site
+
+ Step 5 - Delete ‘master’ branch on the remote repo
