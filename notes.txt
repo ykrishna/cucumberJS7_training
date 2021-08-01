@@ -28,7 +28,7 @@ features folder, if user store them anywhere other than specified locations manu
 ./node_modules/.bin/cucumber-js --format json:./reports/cucumber-json-report.json
 
 7. sending parameters from cmd
-./node_modules/.bin/cucumber-js --world-parameters '{"a":1,"b":2}'
+./node_modules/.bin/cucumber-js --world-parameters '{"a":1,"b":2}' --world-parameters '{"browser":"chrome"}'
 then change following code
 let CustomWorld = function(options) {
     for(let key in options.parameters) {
@@ -99,11 +99,77 @@ npm install --save-dev @cucumber/pretty-formatter
 "tag":["green"]
          }
                    }'
-cucumber-js features/i18n.feature -f @cucumber/pretty-formatter  --language te --format-options '{"theme":{"datatable
+cucumber-js features/simpleMath.feature -f @cucumber/pretty-formatter --format-options '{"theme":{"datatable
 border":["green"],"datatable content":["green","italic"],"docstring content":["green","italic"],"docstring delimiter":
 ["green"],"feature description":["green"],"feature keyword":["bold","green"],"rule keyword":["yellow"],"scenario
 keyword":["greenBright"],"scenario name":["green","underline"],"step keyword":["bgGreen","black","italic"],"step
 text":["greenBright","italic"],"tag":["green"]}}'
+
+13. hook/step definitions use generator functions
+when a hook/step definitions use generator functions (ES6 features), Use 'this.setDefinitionFunctionWrapper(fn)'
+to wrap them in a function that returns a promise
+
+npm install is-generator bluebird
+create a file features/support/setup.js
+      import isGenerator from 'is-generator'
+      import {coroutine} from 'bluebird'
+      import {setDefinitionFunctionWrapper} from 'cucumber'
+      setDefinitionFunctionWrapper(function (fn) {
+        if (isGenerator.fn(fn)) {
+          return coroutine(fn)
+        } else {
+          return fn
+        }
+      })
+
+14. running tests using selenium server
+webdriver manager
+-----------------
+Setting up a Selenium Server
+Prior to starting the selenium server, download the selenium server jar and driver binaries. By default it will
+download the selenium server jar and chromedriver binary.
+
+webdriver-manager update
+
+By default, the selenium server will run on http://localhost:4444/wd/hub.
+
+Starting the Selenium Server
+
+webdriver-manager start
+
+Other useful commands
+View different versions of server and driver files:
+
+webdriver-manager status
+
+Clear out the server and driver files. If webdriver-manager start does not work, try to clear out the saved files.
+
+webdriver-manager clean
+
+Running / stopping server in background process (stopping is not yet supported on standalone server 3.x.x):
+
+webdriver-manager start --detach
+webdriver-manager shutdown
+
+Help commands
+Wedriver-manager has a main help option: webdriver-manager help.
+There are also other built in help menus for each of the commands. So for example, if you would like to look up all the
+flag options you can set in update, you could run webdriver-manager update help.
+
+Here are a list of all the commands with help:
+
+webdriver-manager update help
+webdriver-manager start help
+webdriver-manager clean help
+webdriver-manager status help
+
+installation
+npm i webdriver-manager
+./node_modules/.bin/webdriver-manager update
+./node_modules/.bin/webdriver-manager start
+By default, the selenium server will run on http://localhost:4444/wd/hub.
+use
+let driver = new Builder().usingServer('http://localhost:4444/wd/hub').forBrowser('chrome').build();
 
 ========================================================================================================================
 TestStepResultStatus.UNKNOWN,
@@ -113,3 +179,76 @@ TestStepResultStatus.PENDING,
 TestStepResultStatus.UNDEFINED,
 TestStepResultStatus.AMBIGUOUS,
 TestStepResultStatus.FAILED
+
+// Cucumber and chai should be loaded
+// World is global object which has everything from start to end, it only die when cucumber
+// execution is completed and come back to node
+const {Given, When, Then} = require("@cucumber/cucumber");
+const assert = require('assert');
+const expect = require("chai/chai").expect;
+//above declaration and below declaration is same
+import {Given,When,Then} from "@cucumber/cucumber";
+const Cucumber = require("@cucumber/cucumber");
+or
+import Cucumber from "@cucumber/cucumber";
+let Given = Cucumber.Given;
+let When = Cucumber.When;
+let Then = Cucumber.Then;
+const chai = require("chai/chai");
+let expect = chai.expect;
+
+///// World /////
+// World is global object which has everything from start to end, it only die when cucumber
+// execution is completed and come back to node
+//
+// Call 'setWorldConstructor' with to your custom world (optional)
+//
+// let CustomWorld = function () {
+//     this.variable = 0;
+//     this.context = "";
+// };
+// CustomWorld.prototype.setTo = function (number) {
+//     this.variable = parseInt(number);
+// };
+//
+// CustomWorld.prototype.incrementBy = function (number) {
+//     this.variable += parseInt(number);Builder
+// };
+//
+// CustomWorld.prototype.isWorld = function () {
+//     return true
+// }
+========================================================================================================================
+/// Demo sties
+List of Websites to Practice Selenium
+
+1. http://thedemosite.co.uk/addauser.php
+Presents a web page to add a user.
+It will give a login screen with username/password fields.
+You can use the “test” as username and “test” as the password.
+
+2. http://the-internet.herokuapp.com/
+
+Interactive web operations –
+You can test different UI actions like draggable, droppable, resizable, selectable and sortable.
+Dynamic operations –
+You can play with dynamic content, controls, and elements displayed at run-time.
+Miscellaneous operations –
+It’ll prompt with a variety of frames and windows. And will also present drop-downs and alert boxes.
+Test file download/upload, form authentication, and a floating menu.
+
+3. http://book.theautomatedtester.co.uk/
+
+It is an excellent site for online Selenium practice. It has a rich set of web UI functions specially designed
+for the needs of testing of web application of all types.
+
+Some of the operations on the web elements that you can perform are.
+
+Checkbox and radio button related
+Load and assert the dynamic text
+Launching of windows on click
+Ajax operations
+Dropdown and alerts
+Cookie-related operations
+
+

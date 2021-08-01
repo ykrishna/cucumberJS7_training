@@ -1,16 +1,37 @@
 {
-  "name": "package",
+  "name": "cucumberJS7_training",
   "version": "1.0.0",
   "description": "",
+  "keywords": [
+    "testing",
+    "bdd",
+    "cucumber",
+    "gherkin",
+    "tests"
+  ],
   "main": "index.js",
   "scripts": {
-    "test": "cucumber-js"
+    "test": "cucumber-js features/simpleMath.feature -f @cucumber/pretty-formatter"
   },
   "author": "krishna",
+  "homepage": "https://github.com/ykrishna/cucumberJS7_training",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ykrishna/cucumberJS7_training.git"
+  },
+  "engines": {
+    "node": ">=8"
+  },
   "license": "ISC",
   "devDependencies": {
     "@cucumber/cucumber": "^7.3.0",
     "@cucumber/pretty-formatter": "^1.0.0-alpha.1",
     "chai": "^4.3.4"
+  },
+  "dependencies": {
+    "bluebird": "^3.7.2",
+    "is-generator": "^1.0.3",
+    "selenium-webdriver": "^4.0.0-beta.4",
+    "webdriver-manager": "^12.1.8"
   }
 }

@@ -1,0 +1,20 @@
+Setting Environment variable
+----------------------------
+open .zprofile (if it is not exist, create one)
+export ANDROID_HOME="/Users/krishnayalavarthi/Library/Android/sdk"
+export PATH=$ANDROID_HOME/platform-tools:$ANDROID_HOME/tools:$PATH
+source ~/.zprofile
+
+adding Git remote repo from local
+git remote add origin https://github.com/ykrishna/cucumberJS7_training.git
+
+setting Git branch terminal display
+
+add following code in your ~/.zshrc file
+
+function parse_git_branch() {
+    git branch 2> /dev/null | sed -n -e 's/^\* \(.*\)/[\1]/p'
+}
+
+setopt PROMPT_SUBST
+export PROMPT='%F{grey}%n%f %F{cyan}%~%f %F{green}$(parse_git_branch)%f %F{normal}$%f '
